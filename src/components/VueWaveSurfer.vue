@@ -17,11 +17,6 @@ export default {
       // words: this.word
     };
   },
-  methods: {
-    unlightWord(items) {
-      items.color = 'red';
-    },
-  },
   mounted() {
     const { options } = this;
     const { start } = this;
@@ -35,8 +30,8 @@ export default {
       },
       options,
     );
-    this.waveSurfer = new WaveSurfer();
-    this.waveSurfer.create(wsOptions);
+    // eslint-disable-next-line new-cap
+    this.waveSurfer = new WaveSurfer.create(wsOptions);
   },
   beforeDestroy() {
     this.waveSurfer.destroy();
