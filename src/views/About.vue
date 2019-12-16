@@ -3,6 +3,8 @@
     <h1>This is an about page</h1>
     <vue-wave-surfer :options="options" ref="surf"></vue-wave-surfer>
     <button @click="play">Play</button>
+
+    <p>{{this.$store.state.count}}</p>
   </div>
 </template>
 
@@ -23,7 +25,9 @@ export default {
     return {
       options: {
         plugins: [Cursor.create(), Minimap.create(), Region.create()],
+
       },
+      hui: 0,
     };
   },
   mounted() {
@@ -55,6 +59,9 @@ export default {
     player() {
       return this.$refs.surf.waveSurfer;
     },
+    updates() {
+      return this.$store.state.count;
+    },
   },
   methods: {
     play() {
@@ -62,8 +69,10 @@ export default {
       this.player.playPause();
     },
     update() {
-      this.hui = 'asdsadas';
-      console.log(this.hui);
+      // this.hui = 'asdsadas';
+      // console.log(this.hui);
+      console.log(this.$store.state.count);
+      this.hui = this.updates;
     },
   },
 };

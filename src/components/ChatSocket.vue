@@ -1,52 +1,53 @@
 <template>
   <div>
     <h1>Chat Socket</h1>
-<!--    <div id="main-content" class="container">-->
-<!--      <div class="row">-->
-<!--        <div class="col-md-6">-->
-<!--          <form class="form-inline">-->
-<!--            <div class="form-group">-->
-<!--                            <label for="connect">WebSocket connection:</label>-->
-<!--              <button :disabled="connected"-->
-<!--                      @click="connect">Connect-->
-<!--              </button>-->
-<!--              <button id="disconnect" @click="disconnect"-->
-<!--                      :disabled="!connected">-->
-<!--                Disconnect-->
-<!--              </button>-->
-<!--            </div>-->
-<!--          </form>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--          <form class="form-inline">-->
-<!--            <div class="form-group">-->
-<!--              <label for="name">What is your name?</label>-->
-<!--              <input type="text" id="name" class="form-control"
- placeholder="Your name here..."-->
-<!--                     v-model="name">-->
-<!--            </div>-->
-<!--            <button id="send" class="btn btn-default"
- @click="sendName" type="submit">Send</button>-->
-<!--          </form>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="row">-->
-<!--        <div class="col-md-12">-->
-<!--          <table id="conversation" class="table table-striped">-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--              <th>Greetings</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody id="greetings">-->
-<!--            </tbody>-->
-<!--          </table>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--    <div id="main-content" class="container">-->
+    <!--      <div class="row">-->
+    <!--        <div class="col-md-6">-->
+    <!--          <form class="form-inline">-->
+    <!--            <div class="form-group">-->
+    <!--                            <label for="connect">WebSocket connection:</label>-->
+    <!--              <button :disabled="connected"-->
+    <!--                      @click="connect">Connect-->
+    <!--              </button>-->
+    <!--              <button id="disconnect" @click="disconnect"-->
+    <!--                      :disabled="!connected">-->
+    <!--                Disconnect-->
+    <!--              </button>-->
+    <!--            </div>-->
+    <!--          </form>-->
+    <!--        </div>-->
+    <!--        <div class="col-md-6">-->
+    <!--          <form class="form-inline">-->
+    <!--            <div class="form-group">-->
+    <!--              <label for="name">What is your name?</label>-->
+    <!--              <input type="text" id="name" class="form-control"
+     placeholder="Your name here..."-->
+    <!--                     v-model="name">-->
+    <!--            </div>-->
+    <!--            <button id="send" class="btn btn-default"
+     @click="sendName" type="submit">Send</button>-->
+    <!--          </form>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--      <div class="row">-->
+    <!--        <div class="col-md-12">-->
+    <!--          <table id="conversation" class="table table-striped">-->
+    <!--            <thead>-->
+    <!--            <tr>-->
+    <!--              <th>Greetings</th>-->
+    <!--            </tr>-->
+    <!--            </thead>-->
+    <!--            <tbody id="greetings">-->
+    <!--            </tbody>-->
+    <!--          </table>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
     <button @click="connect">Connect Default</button>
     <button @click="connectNotTranscr">Connect to not transcribed</button>
     <button @click="disconnect">Disconnect</button>
+    <button @click="disconnectNotTranscr">Disconnect not transcribed</button>
     <button @click="sendName" type="submit">Send</button>
     <div><p>{{hui}}</p></div>
     <div>
@@ -67,13 +68,19 @@ export default {
   name: 'ChatSocket',
   data() {
     return {
-      stompClient: null,
-      stompClientNotTranscr: null,
       connected: false,
       name: 'loh',
       hui: '',
       notTranscr: [],
     };
+  },
+  computed: {
+    stompClient() {
+      return this.$store.state.stompClient;
+    },
+    stompClientNotTranscr() {
+      return this.$store.state.stompClientNotTranscr;
+    },
   },
   created() {
 
@@ -84,13 +91,13 @@ export default {
     },
     connectNotTranscr() {
       const socket = new SockJS(`${domain}/gs-guide-websocket`);
-      this.stompClientNotTranscr = StompClient.over(socket);
-      // this.stompClientNotTranscr.debug = null;
+      this.$store.state.stompClientNotTranscr = StompClient.over(socket);
+      this.$store.state.stompClientNotTranscr.debug = null;
       // console.log(this.stompClientNotTranscr);
-      this.stompClientNotTranscr.connect({}, (frame) => {
+      this.$store.state.stompClientNotTranscr.connect({}, (frame) => {
         this.connected = true;
         // console.log(`Connected: ${frame}`);
-        this.stompClientNotTranscr.subscribe('/topic/nottranscribed', (greeting) => {
+        this.$store.state.stompClientNotTranscr.subscribe('/topic/nottranscribed', (greeting) => {
           // console.log('Request');
           // console.log(greeting.body);
           this.notTranscr = JSON.parse(greeting.body);
@@ -99,22 +106,31 @@ export default {
     },
     connect() {
       const socket = new SockJS(`${domain}/gs-guide-websocket`);
-      this.stompClient = StompClient.over(socket);
-      this.stompClient.debug = null;
+      this.$store.state.stompClient = StompClient.over(socket);
+      // this.stompClient.debug = null;
       // console.log(this.stompClient);
-      this.stompClient.connect({}, (frame) => {
+      this.$store.state.stompClient.connect({}, (frame) => {
         this.connected = true;
         // console.log(`Connected: ${frame}`);
-        this.stompClient.subscribe('/topic/greetings', (greeting) => {
+        this.$store.state.stompClient.subscribe('/topic/greetings', (greeting) => {
           // console.log('Request');
           // console.log(greeting.body);
           this.hui = greeting.body;
+          this.$store.state.count = parseInt(this.hui, 10);
+          console.log(this.$store.state.count);
         });
       });
     },
     disconnect() {
-      if (this.stompClient !== null) {
-        this.stompClient.disconnect();
+      if (this.$store.state.stompClient !== null) {
+        this.$store.state.stompClient.disconnect();
+      }
+      this.connected = false;
+      console.log('Disconnected');
+    },
+    disconnectNotTranscr() {
+      if (this.$store.state.stompClientNotTranscr !== null) {
+        this.$store.state.stompClientNotTranscr.disconnect();
       }
       this.connected = false;
       console.log('Disconnected');
