@@ -15,12 +15,12 @@
       :auto-close="true"
       locale="ru"
     />
+    <button @click="showDates">Dates</button>
   </div>
 </template>
 
 <script>
 import DateTimePicker from '../components/DateTimePicker.vue';
-
 
 export default {
   name: 'Test',
@@ -32,6 +32,11 @@ export default {
       dateFrom: '2019-12-04 00:00:00',
       dateTo: '2019-11-27 00:00:00',
     };
+  },
+  methods: {
+    showDates() {
+      console.log(`${new Date(this.dateFrom).getTime()},${new Date(this.dateTo).getTime()}`);
+    },
   },
 };
 </script>

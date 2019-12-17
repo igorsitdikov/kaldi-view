@@ -8,6 +8,7 @@ export default new Vuex.Store({
     count: 0,
     stompClient: null,
     stompClientNotTranscr: null,
+    currentTrack: 0,
   },
   mutations: {
   },
