@@ -29,13 +29,14 @@ export default {
   },
   data() {
     return {
-      dateFrom: '2019-12-04 00:00:00',
-      dateTo: '2019-11-27 00:00:00',
+      dateFrom: '2019-12-05 15:00:00',
+      dateTo: '2019-12-05 15:30:00',
     };
   },
   methods: {
     showDates() {
       console.log(`${new Date(this.dateFrom).getTime()},${new Date(this.dateTo).getTime()}`);
+      this.$store.state.dateFromTo = `${new Date(this.dateFrom).getTime()},${new Date(this.dateTo).getTime()}`;
     },
   },
 };

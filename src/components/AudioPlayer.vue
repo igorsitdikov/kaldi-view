@@ -46,7 +46,7 @@ export default {
     this.player.on('region-out', (region) => {
       // this.$set(this.selected.comment[region.id], 'color', 'rgba(1,62,255,0.59)');
     });
-    this.player.load(`${domain}/api/track/2`);
+    this.player.load(`${domain}/api/track/${this.$store.state.currentTrack}`);
 
     this.player.on('ready', () => {
       this.player.play();
