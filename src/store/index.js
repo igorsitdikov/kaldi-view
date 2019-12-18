@@ -10,6 +10,7 @@ export default new Vuex.Store({
     stompClientNotTranscr: null,
     currentTrack: 1,
     dateFromTo: '',
+    playlist: [],
   },
   mutations: {
   },
