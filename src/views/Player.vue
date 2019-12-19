@@ -5,8 +5,8 @@
       <span v-for="(item,index) in transcriptions" :key="index">{{item.data.note}} </span>
     </div>
     <play-list :play-list="$store.state.playlist"></play-list>
-    <button @click="play(1)">Player test</button>
-    <button @click="getRecords()"></button>
+    <!--    <button @click="play(1)">Player test</button>-->
+    <!--    <button @click="getRecords()"></button>-->
   </div>
 </template>
 
@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     audioplayer() {
-      return this.$refs.aud.testPLayer;
+      return this.$refs.aud;
     },
   },
   data() {
@@ -35,16 +35,24 @@ export default {
   mounted() {
     this.getRecords();
     this.$root.$on('clicker', (track) => {
-      this.play(track.id);
-      this.transcriptions = track.transcriptions;
-      console.log(track);
+      // console.log(track);
+      this.$store.state.currentTrackNum = this.$store.state.playlist.map(e => e.id).indexOf(track);
+      // console.log(this.$store.state.playlist);
+      // console.log(this.$store.state.currentTrackNum);
+
+      this.play(track);
     });
+    // this.play(track.id);
     // this.files = this.$store.state.playlist;
   },
   methods: {
     play(id) {
       this.$store.state.currentTrack = id;
-      this.audioplayer();
+
+      if (this.audioplayer !== undefined) {
+        this.audioplayer.addTranscriptions();
+        this.audioplayer.testPLayer();
+      }
     },
     getRecords() {
       this.files = [];
@@ -61,7 +69,7 @@ export default {
 </script>
 
 <style scoped>
-  .transcription{
+  .transcription {
     height: 150px;
     overflow-y: scroll;
   }

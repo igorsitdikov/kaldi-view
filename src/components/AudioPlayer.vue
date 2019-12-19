@@ -39,12 +39,21 @@ export default {
     this.player.on('finish', () => {
     });
 
-    this.player.clearRegions();
+
     this.player.on('region-in', (region) => {
+      console.log(region);
+      // console.log(this.$store.state.playlist[1]);
       // this.$set(this.selected.comment[region.id], 'color', 'rgba(189,24,255,0.59)');
     });
     this.player.on('region-out', (region) => {
-      // this.$set(this.selected.comment[region.id], 'color', 'rgba(1,62,255,0.59)');
+      // this.$set(this.$store.state.playlist[this.$store.state.playlist
+      //   .findIndex(x => x.id === this.$store.state.currentTrack)]
+      //   .transcriptions[region.id],
+      // 'color', 'rgba(1,62,255,0.59)');
+      // region.color = 'rgba(1,62,255,0.59)';
+      // this.$set(this.$store.state.playlist.
+      // transcriptions[parseInt(region.id, 10)],
+      // 'color', 'rgba(1,62,255,0.59)');
     });
     this.player.load(`${domain}/api/track/${this.$store.state.currentTrack}`);
 
@@ -61,6 +70,19 @@ export default {
     },
   },
   methods: {
+    addTranscriptions() {
+      this.player.clearRegions();
+      let pos = 0;
+      if (this.$store.state.playlist.length !== 0) {
+        this.$store.state.playlist[this.$store.state.currentTrackNum]
+          .transcriptions.forEach((el) => {
+            console.log(el);
+            // eslint-disable-next-line no-plusplus
+            el.id = pos++;
+            this.player.addRegion(el);
+          });
+      }
+    },
     play() {
       // console.log(this.player);
       this.player.playPause();

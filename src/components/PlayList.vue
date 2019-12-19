@@ -17,13 +17,16 @@ export default {
   data: () => ({
     playlist: [],
   }),
-  props: ['playList'],
+  props: {
+    playList: { type: Array },
+    method: { type: Function },
+  },
   mounted() {
     // this.playlist = this.$store.state.playlist;
   },
   methods: {
     clicker(track) {
-      this.$root.$emit('clicker', track);
+      this.$root.$emit('clicker', track.id);
     },
   },
   watch: {
@@ -35,16 +38,18 @@ export default {
 </script>
 
 <style scoped>
-  .playlist{
+  .playlist {
     height: 200px;
     overflow-y: scroll;
   }
+
   .playlist li {
     display: grid;
     border-bottom: 1px solid slateblue;
     padding: 10px;
     grid-template-columns: 50px 200px 50px 100px auto;
   }
+
   .playlist li span {
     border-right: 1px solid slateblue;
   }
