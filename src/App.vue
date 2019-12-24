@@ -5,6 +5,7 @@
       <router-link to="/player">Player</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/contacts">Contacts</router-link> |
+      <router-link to="/settings">Settings</router-link> |
       <router-link to="/test">Test</router-link>
     </div>
     <router-view/>

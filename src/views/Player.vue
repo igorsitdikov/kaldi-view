@@ -37,7 +37,9 @@ export default {
     this.$root.$on('clicker', (track) => {
       // console.log(track);
       this.$store.state.currentTrackNum = this.$store.state.playlist.map(e => e.id).indexOf(track);
-      // console.log(this.$store.state.playlist);
+      console.log('this');
+      this.transcriptions = this.$store.state
+        .playlist[this.$store.state.currentTrackNum].transcriptions;
       // console.log(this.$store.state.currentTrackNum);
 
       this.play(track);
