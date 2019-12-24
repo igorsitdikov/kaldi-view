@@ -12,6 +12,7 @@ export default new Vuex.Store({
     dateFromTo: '',
     playlist: [],
     currentTrackNum: 0,
+    currentTranscriptions: [],
   },
   mutations: {
   },

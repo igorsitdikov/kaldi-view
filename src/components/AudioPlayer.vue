@@ -41,7 +41,9 @@ export default {
 
 
     this.player.on('region-in', (region) => {
-      console.log(region);
+      // console.log(region.id);
+      this.$set(this.$store.state.currentTranscriptions[region.id], 'color', 'red');
+      // .color = 'red';
       // console.log(this.$store.state.playlist[1]);
       // this.$set(this.selected.comment[region.id], 'color', 'rgba(189,24,255,0.59)');
     });

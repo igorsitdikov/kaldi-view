@@ -2,7 +2,9 @@
   <div>
     <audio-player ref="aud"></audio-player>
     <div class="transcription">
-      <span v-for="(item,index) in transcriptions" :key="index">{{item.data.note}} </span>
+      <span v-for="(item,index) in $store.state.currentTranscriptions"
+            :style="{color: item.color}"
+            :key="index">{{item.data.note}} </span>
     </div>
     <play-list :play-list="$store.state.playlist"></play-list>
     <!--    <button @click="play(1)">Player test</button>-->
@@ -32,14 +34,19 @@ export default {
       transcriptions: [],
     };
   },
+  beforeDestroy() {
+    this.$root.$off('clicker');
+  },
   mounted() {
     this.getRecords();
     this.$root.$on('clicker', (track) => {
       // console.log(track);
       this.$store.state.currentTrackNum = this.$store.state.playlist.map(e => e.id).indexOf(track);
-      console.log('this');
-      this.transcriptions = this.$store.state
+      // console.log('this');
+      this.$store.state.currentTranscriptions = [];
+      this.$store.state.currentTranscriptions = this.$store.state
         .playlist[this.$store.state.currentTrackNum].transcriptions;
+      // this.$store.state.currentTranscriptions = this.transcriptions;
       // console.log(this.$store.state.currentTrackNum);
 
       this.play(track);
