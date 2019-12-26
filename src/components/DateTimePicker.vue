@@ -533,7 +533,20 @@ export default {
   width: 100%;
   margin-bottom: 10px;
 }
-
+button{
+  border: transparent 1px solid;
+  background-color: #42b983;
+  /*width: 120px;*/
+  padding: 10px;
+  color: #ffffff;
+  transition: background-color 0.25s ease-out, color  0.25s ease-out, border 0.25s ease-out;
+  cursor: pointer;
+}
+button:hover{
+  background-color: #ffffff;
+  color: #42b983;
+  border: #42b983 1px solid;
+}
 .clear__button, .today__button, .close__button {
   width: 100%;
   margin-top: 10px;

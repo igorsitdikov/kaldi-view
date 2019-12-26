@@ -65,13 +65,26 @@ export default {
     },
     getRecords() {
       this.files = [];
-
-      this.$api.records.get(`${this.$store.state.dateFromTo},true`).then((response) => {
-        response.data.forEach((el) => {
-          this.files.push(el);
-          this.$store.state.playlist.push(el);
+      this.$store.state.playlist = [];
+      const keyWrds = this.$store.state.keyWordsSelectedList;
+      if (keyWrds.length === 0) {
+        this.$api.records.get(`${this.$store.state.dateFromTo},true`).then((response) => {
+          response.data.forEach((el) => {
+            this.files.push(el);
+            this.$store.state.playlist.push(el);
+          });
         });
-      });
+      } else {
+        this.$api.keywords.postSelected(
+          this.$store.state.dateFromTo.split(','),
+          keyWrds,
+        ).then((response) => {
+          response.data.forEach((el) => {
+            this.files.push(el);
+            this.$store.state.playlist.push(el);
+          });
+        });
+      }
     },
   },
 };
@@ -79,7 +92,12 @@ export default {
 
 <style scoped>
   .transcription {
-    height: 150px;
+    height: 80px;
     overflow-y: scroll;
+    text-align: left;
+    background-color: #dad7d7;
+    padding: 10px;
+    border-top: #42b983 4px solid;
+    margin-top: 10px;
   }
 </style>

@@ -13,6 +13,7 @@ export default new Vuex.Store({
     playlist: [],
     currentTrackNum: 0,
     currentTranscriptions: [],
+    keyWordsSelectedList: [],
   },
   mutations: {
   },

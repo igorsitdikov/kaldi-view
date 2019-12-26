@@ -41,11 +41,17 @@ export default {
   .playlist {
     height: 200px;
     overflow-y: scroll;
+    border-top: #42b983 5px solid;
+    border-bottom: #42b983 5px solid;
+    margin: 0;
+    padding: 0;
+    padding-top: 10px;
   }
 
   .playlist li {
     display: grid;
     border-bottom: 1px solid slateblue;
+    border-top: 1px solid slateblue;
     padding: 10px;
     grid-template-columns: 50px 200px 50px 100px auto;
   }
