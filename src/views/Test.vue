@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     showDates() {
-      console.log(`${new Date(this.dateFrom).getTime()},${new Date(this.dateTo).getTime()}`);
+      // console.log(`${new Date(this.dateFrom).getTime()},${new Date(this.dateTo).getTime()}`);
       this.$store.state.dateFromTo = `${new Date(this.dateFrom).getTime()},${new Date(this.dateTo).getTime()}`;
     },
   },

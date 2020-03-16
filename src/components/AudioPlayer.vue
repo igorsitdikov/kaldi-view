@@ -64,11 +64,16 @@ export default {
       // transcriptions[parseInt(region.id, 10)],
       // 'color', 'rgba(1,62,255,0.59)');
     });
-    this.player.load(`${domain}/api/track/${this.$store.state.currentTrack}`);
+    const dd = `${domain}/api/audiorecords/${this.$store.state.currentTrack}`;
+    this.$api.track.get(this.$store.state.currentTrack).then((response) => {
+      // console.log(`data:audio/x-wav;base64,${response.data}`);
+      this.player.load(`data:audio/x-wav;base64,${response.data}`);
 
-    this.player.on('ready', () => {
-      this.player.play();
+      this.player.on('ready', () => {
+        this.player.play();
+      });
     });
+    console.log(dd);
   },
   computed: {
     player() {
@@ -84,8 +89,8 @@ export default {
       let pos = 0;
       if (this.$store.state.playlist.length !== 0) {
         this.$store.state.playlist[this.$store.state.currentTrackNum]
-          .transcriptions.forEach((el) => {
-            console.log(el);
+          .transcription.forEach((el) => {
+            // console.log(el);
             // eslint-disable-next-line no-plusplus
             el.id = pos++;
             this.player.addRegion(el);
@@ -98,9 +103,13 @@ export default {
       this.player.playPause();
     },
     testPLayer() {
-      this.player.load(`${domain}/api/track/${this.$store.state.currentTrack}`);
-      this.player.on('ready', () => {
-        this.player.play();
+      this.$api.track.get(this.$store.state.currentTrack).then((response) => {
+        // console.log(`data:audio/x-wav;base64,${response.data}`);
+        this.player.load(`data:audio/x-wav;base64,${response.data}`);
+
+        this.player.on('ready', () => {
+          this.player.play();
+        });
       });
     },
   },

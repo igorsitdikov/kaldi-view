@@ -6,6 +6,7 @@
         <span>{{track.datetime}}</span>
         <span>{{track.language}}</span>
         <span>{{track.source}}</span>
+        <span>{{track.transcription.map(el => el.data.note).join(" ")}}</span>
       </li>
     </ul>
   </div>
@@ -39,7 +40,7 @@ export default {
 
 <style scoped>
   .playlist {
-    height: 200px;
+    height: 630px;
     overflow-y: scroll;
     border-top: #42b983 5px solid;
     border-bottom: #42b983 5px solid;

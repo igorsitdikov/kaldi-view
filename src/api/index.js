@@ -17,7 +17,10 @@ api.install = (Vue, option) => {
   Vue.prototype.$api = {
     records: {
       get(dates) {
-        return aInst.get(`/file/records?date=${dates}`);
+        return aInst.get(`/audiorecords${dates}`);
+      },
+      post(keywords, dates) {
+        return aInst.post(`/audiorecords${dates}`, keywords);
       },
       getNumNotTranscribed() {
         return aInst.get('/file/records/empty');
@@ -25,22 +28,22 @@ api.install = (Vue, option) => {
     },
     track: {
       get(id) {
-        return aInst.get(`/track/${id.toString()}`);
+        return aInst.get(`/audiorecords/${id.toString()}`);
       },
     },
     keywords: {
       get() {
-        return aInst.get('/db/keywords');
+        return aInst.get('/keywords');
       },
-      post(id, keyword) {
-        aInst.post('/db/keywords', { id, keyword });
+      post(word) {
+        aInst.post('/keywords', { keyword: word });
       },
       postSelected(array, keyword) {
         console.log(keyword);
         return aInst.post('/file/records/selected', { array, keyWords: keyword });
       },
       delete(id) {
-        aInst.get(`/db/keywords/${id}`);
+        aInst.delete(`/keywords/${id}`);
       },
     },
   };

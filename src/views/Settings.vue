@@ -62,6 +62,9 @@
 
 <script>
 import DateTimePicker from '../components/DateTimePicker.vue';
+import { RepositoryFactory } from '../repositories/RepositoryFactory';
+
+const keywordsRepository = RepositoryFactory.get('keywords');
 
 export default {
   name: 'Settings',
@@ -70,27 +73,22 @@ export default {
   },
   data() {
     return {
-      dateFrom: '2019-12-05 15:00:00',
-      dateTo: '2019-12-05 15:30:00',
+      dateFrom: '2020-03-14 00:00:00',
+      dateTo: '2020-03-14 15:30:00',
       newKeyWord: '',
       keyWordsList: [],
     };
   },
   mounted() {
     this.getKeyWords();
+    console.log(`${new Date(this.dateFrom).toISOString()},${new Date(this.dateTo).toISOString()}`);
   },
   methods: {
-    getKeyWords() {
-      this.$api.keywords
-        .get()
-        .then((resp) => {
-          this.keyWordsList = resp.data;
-        })
-        .then(() => {
-          console.log(this.keyWordsList);
-        });
+    async getKeyWords() {
+      const { data } = await keywordsRepository.get();
+      this.keyWordsList = data;
     },
-    addWord() {
+    async addWord() {
       // console.log(
       //     this.$api.keywords.post(this.keyWordsList.length, this.newKeyWord)
       // );
@@ -107,21 +105,23 @@ export default {
         });
       }
       if (window.confirm('Добавить в базу данных?')) {
-        this.$api.keywords.post(this.keyWordsList.length, this.newKeyWord);
+        await keywordsRepository.post({ keyword: this.newKeyWord });
       }
 
       this.newKeyWord = '';
       // console.log("sad");
     },
-    deleteKeyWord(index, id) {
+    async deleteKeyWord(index, id) {
       this.keyWordsList.splice(index, 1);
       if (window.confirm('Удалить из базы данных?')) {
-        this.$api.keywords.delete(id);
+        await keywordsRepository.delete(id);
       }
     },
     showDates() {
-      console.log(`${new Date(this.dateFrom).getTime()},${new Date(this.dateTo).getTime()}`);
+      // console.log(`${new Date(this.dateFrom).getTime()},${new Date(this.dateTo).getTime()}`);
       this.$store.state.dateFromTo = `${new Date(this.dateFrom).getTime()},${new Date(this.dateTo).getTime()}`;
+      this.$store.state.dateFromTo = `?from=${new Date(this.dateFrom).toISOString().replace('Z', '')}&to=${new Date(this.dateTo).toISOString().replace('Z', '')}`;
+      console.log(this.$store.state.dateFromTo);
     },
   },
 };
@@ -134,6 +134,7 @@ export default {
     display: flex;
     justify-content: space-around;
   }
+
   .keywords-wrapper__lists{
     background-color: #42b983;
     display: grid;
@@ -142,10 +143,17 @@ export default {
   .keywords-wrapper__lists .keywords {
     text-align: left;
     list-style: none;
+    height: 600px !important;
+    background-color: #42b983;
   }
   .keywords-wrapper__lists .keywords li{
     display: flex;
     justify-content: space-between;
+  }
+  .keywords-wrapper__lists .keywords li p{
+    font-weight: bold;
+    font-size: 16px;
+    margin: 5px;
   }
   .keywords-wrapper__buttons {
     display: flex;

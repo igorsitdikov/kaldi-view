@@ -45,7 +45,7 @@ export default {
       // console.log('this');
       this.$store.state.currentTranscriptions = [];
       this.$store.state.currentTranscriptions = this.$store.state
-        .playlist[this.$store.state.currentTrackNum].transcriptions;
+        .playlist[this.$store.state.currentTrackNum].transcription;
       // this.$store.state.currentTranscriptions = this.transcriptions;
       // console.log(this.$store.state.currentTrackNum);
 
@@ -67,24 +67,32 @@ export default {
       this.files = [];
       this.$store.state.playlist = [];
       const keyWrds = this.$store.state.keyWordsSelectedList;
-      if (keyWrds.length === 0) {
-        this.$api.records.get(`${this.$store.state.dateFromTo},true`).then((response) => {
+      console.log(keyWrds);
+      this.$api.records.post(keyWrds, `${this.$store.state.dateFromTo}`)
+        .then((response) => {
           response.data.forEach((el) => {
             this.files.push(el);
             this.$store.state.playlist.push(el);
           });
         });
-      } else {
-        this.$api.keywords.postSelected(
-          this.$store.state.dateFromTo.split(','),
-          keyWrds,
-        ).then((response) => {
-          response.data.forEach((el) => {
-            this.files.push(el);
-            this.$store.state.playlist.push(el);
-          });
-        });
-      }
+      // if (keyWrds.length === 0) {
+      //   this.$api.records.get(`${this.$store.state.dateFromTo},true`).then((response) => {
+      //     response.data.forEach((el) => {
+      //       this.files.push(el);
+      //       this.$store.state.playlist.push(el);
+      //     });
+      //   });
+      // } else {
+      //   this.$api.keywords.postSelected(
+      //     this.$store.state.dateFromTo.split(','),
+      //     keyWrds,
+      //   ).then((response) => {
+      //     response.data.forEach((el) => {
+      //       this.files.push(el);
+      //       this.$store.state.playlist.push(el);
+      //     });
+      //   });
+      // }
     },
   },
 };
