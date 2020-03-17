@@ -18,7 +18,9 @@ import Cursor from 'wavesurfer.js/dist/plugin/wavesurfer.cursor';
 import Minimap from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 import Region from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import VueWaveSurfer from './VueWaveSurfer.vue';
-import domain from '../config/config';
+import { RepositoryFactory } from '../repositories/RepositoryFactory';
+
+const audiorecordsRepository = RepositoryFactory.get('audiorecords');
 
 export default {
   name: 'AudioPlayer',
@@ -64,16 +66,7 @@ export default {
       // transcriptions[parseInt(region.id, 10)],
       // 'color', 'rgba(1,62,255,0.59)');
     });
-    const dd = `${domain}/api/audiorecords/${this.$store.state.currentTrack}`;
-    this.$api.track.get(this.$store.state.currentTrack).then((response) => {
-      // console.log(`data:audio/x-wav;base64,${response.data}`);
-      this.player.load(`data:audio/x-wav;base64,${response.data}`);
-
-      this.player.on('ready', () => {
-        this.player.play();
-      });
-    });
-    console.log(dd);
+    this.testPLayer();
   },
   computed: {
     player() {
@@ -102,14 +95,12 @@ export default {
       this.playPauseBtn = !this.playPauseBtn;
       this.player.playPause();
     },
-    testPLayer() {
-      this.$api.track.get(this.$store.state.currentTrack).then((response) => {
-        // console.log(`data:audio/x-wav;base64,${response.data}`);
-        this.player.load(`data:audio/x-wav;base64,${response.data}`);
+    async testPLayer() {
+      const { data } = await audiorecordsRepository.getTrackById(this.$store.state.currentTrack);
+      this.player.load(`data:audio/x-wav;base64,${data}`);
 
-        this.player.on('ready', () => {
-          this.player.play();
-        });
+      this.player.on('ready', () => {
+        this.player.play();
       });
     },
   },

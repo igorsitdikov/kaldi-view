@@ -81,9 +81,16 @@ export default {
   },
   mounted() {
     this.getKeyWords();
+    this.setDefaultDateTime();
     console.log(`${new Date(this.dateFrom).toISOString()},${new Date(this.dateTo).toISOString()}`);
   },
   methods: {
+    setDefaultDateTime() {
+      const dateTime = new Date();
+      dateTime.setHours(dateTime.getHours() - 1);
+      this.dateFrom = dateTime;
+      this.dateTo = new Date();
+    },
     async getKeyWords() {
       const { data } = await keywordsRepository.get();
       this.keyWordsList = data;

@@ -15,6 +15,9 @@
 <script>
 import AudioPlayer from '../components/AudioPlayer.vue';
 import PlayList from '../components/PlayList.vue';
+import { RepositoryFactory } from '../repositories/RepositoryFactory';
+
+const audiorecordsRepository = RepositoryFactory.get('audiorecords');
 
 export default {
   name: 'Player',
@@ -63,36 +66,13 @@ export default {
         this.audioplayer.testPLayer();
       }
     },
-    getRecords() {
+    async getRecords() {
       this.files = [];
       this.$store.state.playlist = [];
-      const keyWrds = this.$store.state.keyWordsSelectedList;
-      console.log(keyWrds);
-      this.$api.records.post(keyWrds, `${this.$store.state.dateFromTo}`)
-        .then((response) => {
-          response.data.forEach((el) => {
-            this.files.push(el);
-            this.$store.state.playlist.push(el);
-          });
-        });
-      // if (keyWrds.length === 0) {
-      //   this.$api.records.get(`${this.$store.state.dateFromTo},true`).then((response) => {
-      //     response.data.forEach((el) => {
-      //       this.files.push(el);
-      //       this.$store.state.playlist.push(el);
-      //     });
-      //   });
-      // } else {
-      //   this.$api.keywords.postSelected(
-      //     this.$store.state.dateFromTo.split(','),
-      //     keyWrds,
-      //   ).then((response) => {
-      //     response.data.forEach((el) => {
-      //       this.files.push(el);
-      //       this.$store.state.playlist.push(el);
-      //     });
-      //   });
-      // }
+      const keyWordsSelected = this.$store.state.keyWordsSelectedList;
+      const { data } = await audiorecordsRepository.getByKeywords(keyWordsSelected, `${this.$store.state.dateFromTo}`);
+      this.files = data;
+      this.$store.state.playlist = data;
     },
   },
 };
