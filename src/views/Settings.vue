@@ -5,7 +5,6 @@
     <h1>Настройки</h1>
     <h3>Выберите период</h3>
     <div class="date-wrapper">
-
       <DateTimePicker
         id="picker-no-props"
         v-model="dateFrom"
@@ -27,7 +26,6 @@
       <div class="keywords-wrapper__add">
         <input v-model="newKeyWord" placeholder="Например, вооружение"/>
         <button class="keywords-wrapper__adder" @click="addWord">Добавить слово</button>
-        <!--            <button @click="getKeyWords">Обновить</button>-->
       </div>
       <h3>Списки ключевых слов</h3>
       <div class="keywords-wrapper__lists">
@@ -53,7 +51,6 @@
             </div>
           </li>
         </ul>
-
       </div>
     </div>
 
@@ -81,8 +78,11 @@ export default {
   },
   mounted() {
     this.getKeyWords();
-    this.setDefaultDateTime();
-    console.log(`${new Date(this.dateFrom).toISOString()},${new Date(this.dateTo).toISOString()}`);
+    this.dateFrom = localStorage.getItem('dateFrom');
+    this.dateTo = localStorage.getItem('dateTo');
+    if (this.dateTo === null || this.dateFrom === null) {
+      this.setDefaultDateTime();
+    }
   },
   methods: {
     setDefaultDateTime() {
@@ -95,40 +95,43 @@ export default {
       const { data } = await keywordsRepository.get();
       this.keyWordsList = data;
     },
-    async addWord() {
-      // console.log(
-      //     this.$api.keywords.post(this.keyWordsList.length, this.newKeyWord)
-      // );
-      // console.log(
-      //   this.$api.keywords
-      //       .postSelected([1574629200000, 1574802000000], keywrd)
-      //     // .then(resp => {console.log(resp)} )
-      // );
+    addWord() {
       if (this.newKeyWord !== '') {
-        this.keyWordsList.push({
-          id: this.keyWordsList.length,
-          keyword: this.newKeyWord,
-          db: false,
+        this.keyWordsList.push({ keyword: this.newKeyWord });
+      }
+      this.$confirm('Добавить в базу данных?', '', 'question')
+        .then(async function () {
+          await keywordsRepository.post({ keyword: this.newKeyWord });
+        }.bind(this)()).catch(() => {
+          console.log('canceled');
         });
-      }
-      if (window.confirm('Добавить в базу данных?')) {
-        await keywordsRepository.post({ keyword: this.newKeyWord });
-      }
-
       this.newKeyWord = '';
-      // console.log("sad");
     },
-    async deleteKeyWord(index, id) {
-      this.keyWordsList.splice(index, 1);
-      if (window.confirm('Удалить из базы данных?')) {
-        await keywordsRepository.delete(id);
-      }
+    deleteKeyWord(index, id) {
+      const word = this.keyWordsList.splice(index, 1);
+      this.$confirm(`Удалить запись ${word[0].keyword} из базы данных?`, '', 'question')
+        .then(async () => {
+          await keywordsRepository.delete(id);
+        }).catch(() => {
+          console.log('canceled');
+        });
     },
     showDates() {
-      // console.log(`${new Date(this.dateFrom).getTime()},${new Date(this.dateTo).getTime()}`);
-      this.$store.state.dateFromTo = `${new Date(this.dateFrom).getTime()},${new Date(this.dateTo).getTime()}`;
-      this.$store.state.dateFromTo = `?from=${new Date(this.dateFrom).toISOString().replace('Z', '')}&to=${new Date(this.dateTo).toISOString().replace('Z', '')}`;
-      console.log(this.$store.state.dateFromTo);
+      this.dateFrom = new Date(this.dateFrom).toISOString()
+        .replace('T', ' ')
+        .substring(0, 19);
+      this.dateTo = new Date(this.dateTo).toISOString()
+        .replace('T', ' ')
+        .substring(0, 19);
+      this.$store.state.dateFromTo = `?from=${this.dateFrom}&to=${this.dateTo}`;
+      localStorage.setItem('dateFromTo', this.$store.state.dateFromTo);
+      localStorage.setItem('dateFrom', this.dateFrom);
+      localStorage.setItem('dateTo', this.dateTo);
+
+      this.$alert('Настройки применены!', '', 'success')
+        .then(() => {
+          console.log('saved');
+        });
     },
   },
 };
@@ -206,5 +209,8 @@ export default {
     background-color: #ffffff;
     color: #42b983;
     border: #42b983 1px solid;
+  }
+  .swal2-styled.swal2-confirm {
+    background-color: #42b983 ;
   }
 </style>

@@ -9,7 +9,7 @@ export default new Vuex.Store({
     stompClient: null,
     stompClientNotTranscr: null,
     currentTrack: 1,
-    dateFromTo: '',
+    dateFromTo: localStorage.getItem('dateFromTo'),
     playlist: [],
     currentTrackNum: 0,
     currentTranscriptions: [],
