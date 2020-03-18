@@ -10,6 +10,6 @@ export default {
     return Repository.get(`${resource}/${id}`);
   },
   getByKeywords(keywords, dates) {
-    return Repository.put(`${resource}${dates}`, keywords);
+    return Repository.post(`${resource}${dates}`, keywords);
   },
 };

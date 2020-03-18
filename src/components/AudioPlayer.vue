@@ -89,6 +89,7 @@ export default {
             this.player.addRegion(el);
           });
       }
+      console.log(this.$store.state.playlist[this.$store.state.currentTrackNum]);
     },
     play() {
       // console.log(this.player);

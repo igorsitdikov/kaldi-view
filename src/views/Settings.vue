@@ -19,7 +19,7 @@
         :auto-close="true"
         locale="ru"
       />
-      <button @click="showDates">Принять</button>
+      <button @click="saveConfig">Принять</button>
     </div>
     <h3>Добавить слово</h3>
     <div class="keywords-wrapper">
@@ -116,7 +116,7 @@ export default {
           console.log('canceled');
         });
     },
-    showDates() {
+    saveConfig() {
       this.dateFrom = new Date(this.dateFrom).toISOString()
         .replace('T', ' ')
         .substring(0, 19);
@@ -124,6 +124,8 @@ export default {
         .replace('T', ' ')
         .substring(0, 19);
       this.$store.state.dateFromTo = `?from=${this.dateFrom}&to=${this.dateTo}`;
+
+      localStorage.setItem('selectedKeywords', JSON.stringify(this.$store.state.keyWordsSelectedList));
       localStorage.setItem('dateFromTo', this.$store.state.dateFromTo);
       localStorage.setItem('dateFrom', this.dateFrom);
       localStorage.setItem('dateTo', this.dateTo);
