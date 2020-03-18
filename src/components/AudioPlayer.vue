@@ -79,13 +79,9 @@ export default {
   methods: {
     addTranscriptions() {
       this.player.clearRegions();
-      let pos = 0;
       if (this.$store.state.playlist.length !== 0) {
         this.$store.state.playlist[this.$store.state.currentTrackNum]
           .transcription.forEach((el) => {
-            // console.log(el);
-            // eslint-disable-next-line no-plusplus
-            el.id = pos++;
             this.player.addRegion(el);
           });
       }
