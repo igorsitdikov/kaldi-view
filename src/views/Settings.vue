@@ -1,60 +1,65 @@
 <template>
-  <div>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
 
-<!--    <h1>Settings</h1>-->
-    <h1>Настройки</h1>
-    <h3>Выберите период</h3>
-    <div class="date-wrapper">
-      <DateTimePicker
-        id="picker-no-props"
-        v-model="dateFrom"
-        format="yyyy-LL-dd hh:mm"
-        :auto-close="true"
-        locale="ru"
-      />
-      <DateTimePicker
-        id="picker-no-propss"
-        v-model="dateTo"
-        format="yyyy-LL-dd hh:mm"
-        :auto-close="true"
-        locale="ru"
-      />
-      <button @click="saveConfig">Принять</button>
-    </div>
-    <h3>Добавить слово</h3>
-    <div class="keywords-wrapper">
-      <div class="keywords-wrapper__add">
-        <input v-model="newKeyWord" placeholder="Например, вооружение"/>
-        <button class="keywords-wrapper__adder" @click="addWord">Добавить слово</button>
-      </div>
-      <h3>Списки ключевых слов</h3>
-      <div class="keywords-wrapper__lists">
+        <!--    <h1>Settings</h1>-->
+        <h1>Настройки</h1>
+        <h3>Выберите период</h3>
+        <div class="date-wrapper">
+          <DateTimePicker
+            id="picker-no-props"
+            v-model="dateFrom"
+            format="yyyy-LL-dd hh:mm"
+            :auto-close="true"
+            locale="ru"
+          />
+          <DateTimePicker
+            id="picker-no-propss"
+            v-model="dateTo"
+            format="yyyy-LL-dd hh:mm"
+            :auto-close="true"
+            locale="ru"
+          />
+          <button @click="saveConfig">Принять</button>
+        </div>
+        <h3>Добавить слово</h3>
+        <div class="keywords-wrapper">
+          <div class="keywords-wrapper__add">
+            <input v-model="newKeyWord" placeholder="Например, вооружение"/>
+            <button class="keywords-wrapper__adder" @click="addWord">Добавить слово</button>
+          </div>
+          <h3>Списки ключевых слов</h3>
+          <div class="keywords-wrapper__lists">
 
-        <ul class="keywords">
-          <h3>Список всех ключевых слов</h3>
-          <li v-for="(item,index) in keyWordsList" :key="item.id">
-            <p>{{item.keyword}}</p>
-            <div class="keywords-wrapper__buttons">
-              <button @click="deleteKeyWord(index,item.id)">Удалить</button>
-              <button @click="$store.state.keyWordsSelectedList
-            .push( keyWordsList[index])"> ></button>
-            </div>
-          </li>
-        </ul>
+            <ul class="keywords">
+              <h3>Список всех ключевых слов</h3>
+              <li v-for="(item,index) in keyWordsList" :key="item.id">
+                <p>{{item.keyword}}</p>
+                <div class="keywords-wrapper__buttons">
+                  <button @click="deleteKeyWord(index,item.id)">Удалить</button>
+                  <button @click="$store.state.keyWordsSelectedList
+            .push( keyWordsList[index])"> >
+                  </button>
+                </div>
+              </li>
+            </ul>
 
-        <ul class="keywords">
-          <h3>Список ключевых слов для отбора</h3>
-          <li v-for="(item,index) in $store.state.keyWordsSelectedList" :key="item.id">
-            <p>{{item.keyword}}</p>
-            <div class="keywords-wrapper__buttons">
-              <button @click="$store.state.keyWordsSelectedList.splice(index, 1)">Убрать</button>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-  </div>
+            <ul class="keywords">
+              <h3>Список ключевых слов для отбора</h3>
+              <li v-for="(item,index) in $store.state.keyWordsSelectedList" :key="item.id">
+                <p>{{item.keyword}}</p>
+                <div class="keywords-wrapper__buttons">
+                  <button @click="$store.state.keyWordsSelectedList.splice(index, 1)">Убрать
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -102,7 +107,8 @@ export default {
       this.$confirm('Добавить в базу данных?', '', 'question')
         .then(async function () {
           await keywordsRepository.post({ keyword: this.newKeyWord });
-        }.bind(this)()).catch(() => {
+        }.bind(this)())
+        .catch(() => {
           console.log('canceled');
         });
       this.newKeyWord = '';
@@ -112,7 +118,8 @@ export default {
       this.$confirm(`Удалить запись ${word[0].keyword} из базы данных?`, '', 'question')
         .then(async () => {
           await keywordsRepository.delete(id);
-        }).catch(() => {
+        })
+        .catch(() => {
           console.log('canceled');
         });
     },
@@ -147,44 +154,53 @@ export default {
     justify-content: space-around;
   }
 
-  .keywords-wrapper__lists{
+  .keywords-wrapper__lists {
     background-color: #42b983;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
+
   .keywords-wrapper__lists .keywords {
     text-align: left;
     list-style: none;
     height: 600px !important;
     background-color: #42b983;
   }
-  .keywords-wrapper__lists .keywords li{
+
+  .keywords-wrapper__lists .keywords li {
     display: flex;
     justify-content: space-between;
   }
-  .keywords-wrapper__lists .keywords li p{
+
+  .keywords-wrapper__lists .keywords li p {
     font-weight: bold;
     font-size: 16px;
     margin: 5px;
   }
+
   .keywords-wrapper__buttons {
     display: flex;
   }
-  .keywords:first-child{
+
+  .keywords:first-child {
     border-right: #1a0303 5px solid;
   }
-  .keywords-wrapper__add{
+
+  .keywords-wrapper__add {
     display: flex;
     justify-content: space-around;
     margin: 10px 0;
   }
-  .keywords-wrapper__adder{
+
+  .keywords-wrapper__adder {
     padding: 10px;
   }
-  h3{
+
+  h3 {
     position: relative;
     text-align: center;
   }
+
   h3:before {
     content: '';
     position: absolute;
@@ -198,21 +214,24 @@ export default {
     margin: auto;
     top: 35px;
   }
-  button{
+
+  button {
     border: transparent 1px solid;
     background-color: #42b983;
     /*width: 120px;*/
     padding: 10px;
     color: #ffffff;
-    transition: background-color 0.25s ease-out, color  0.25s ease-out, border 0.25s ease-out;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out, border 0.25s ease-out;
     cursor: pointer;
   }
-  button:hover{
+
+  button:hover {
     background-color: #ffffff;
     color: #42b983;
     border: #42b983 1px solid;
   }
+
   .swal2-styled.swal2-confirm {
-    background-color: #42b983 ;
+    background-color: #42b983;
   }
 </style>

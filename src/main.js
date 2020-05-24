@@ -4,6 +4,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import api from './api';
+import vuetify from './plugins/vuetify';
 
 Vue.use(VueSimpleAlert);
 
@@ -13,5 +14,6 @@ new Vue({
   router,
   store,
   api,
+  vuetify,
   render: h => h(App),
 }).$mount('#app');

@@ -6,9 +6,9 @@
       <vue-wave-surfer :options="options" :file="track" ref="surf"></vue-wave-surfer>
     </div>
     <div class="player-wrapper__buttons">
-      <button class="play-pause"
+      <v-btn class="play-pause"
               @click="play"
-      >{{playPauseBtn ? 'Пауза' : 'Воспроизвести'}}</button>
+      >{{playPauseBtn ? 'Пауза' : 'Воспроизвести'}}</v-btn>
     </div>
   </div>
 </template>
@@ -105,22 +105,22 @@ export default {
 </script>
 
 <style scoped>
-  .player-wrapper__player{
-    margin: 10px 0;
-    background-color: #dad7d7;
-  }
-  .player-wrapper__buttons .play-pause{
-    border: transparent 1px solid;
-    background-color: #42b983;
-    width: 120px;
-    padding: 10px;
-    color: #ffffff;
-    transition: background-color 0.25s ease-out, color  0.25s ease-out, border 0.25s ease-out;
-    cursor: pointer;
-  }
-  .player-wrapper__buttons .play-pause:hover{
-    background-color: #ffffff;
-    color: #42b983;
-    border: #42b983 1px solid;
-  }
+  /*.player-wrapper__player{*/
+  /*  margin: 10px 0;*/
+  /*  background-color: #dad7d7;*/
+  /*}*/
+  /*.player-wrapper__buttons .play-pause{*/
+  /*  border: transparent 1px solid;*/
+  /*  background-color: #42b983;*/
+  /*  width: 120px;*/
+  /*  padding: 10px;*/
+  /*  color: #ffffff;*/
+  /*  transition: background-color 0.25s ease-out, color  0.25s ease-out, border 0.25s ease-out;*/
+  /*  cursor: pointer;*/
+  /*}*/
+  /*.player-wrapper__buttons .play-pause:hover{*/
+  /*  background-color: #ffffff;*/
+  /*  color: #42b983;*/
+  /*  border: #42b983 1px solid;*/
+  /*}*/
 </style>
