@@ -74,14 +74,6 @@
                                     <v-list-item-content>
                                       <v-list-item-title v-text="item.keyword"></v-list-item-title>
                                     </v-list-item-content>
-      <!--                          <v-list-item-action>-->
-      <!--                            <v-checkbox-->
-      <!--                              :input-value="active"-->
-      <!--                              :true-value="item"-->
-      <!--                              color="deep-purple accent-4"-->
-      <!--                              @click="toggle"-->
-      <!--                            ></v-checkbox>-->
-      <!--                          </v-list-item-action>-->
                                     <v-btn
                                       @click="deleteKeyWord(index,item.id)"
                                       class="mx-2"
@@ -121,14 +113,6 @@
                                     <v-list-item-content>
                                       <v-list-item-title v-text="item.keyword"></v-list-item-title>
                                     </v-list-item-content>
-            <!--                          <v-list-item-action>-->
-            <!--                            <v-checkbox-->
-            <!--                              :input-value="active"-->
-            <!--                              :true-value="item"-->
-            <!--                              color="deep-purple accent-4"-->
-            <!--                              @click="toggle"-->
-            <!--                            ></v-checkbox>-->
-            <!--                          </v-list-item-action>-->
                                     <v-btn
                                       @click="$store.state.keyWordsSelectedList.splice(index, 1)"
                                       class="mx-2"
@@ -148,30 +132,9 @@
                     </v-col>
                   </v-row>
                   <v-divider></v-divider>
-
-<!--                <ul class="keywords">-->
-<!--                  <h3>Список ключевых слов для отбора</h3>-->
-<!--                  <li v-for="(item,index) in $store.state.keyWordsSelectedList"
- :key="item.id">-->
-<!--                    <p>{{item.keyword}}</p>-->
-<!--                    <div class="keywords-wrapper__buttons">-->
-<!--                      <v-btn-->
-<!--                        @click="$store.state.keyWordsSelectedList.splice(index, 1)"-->
-<!--                        class="mx-2"-->
-<!--                        fab-->
-<!--                        x-small-->
-<!--                        dark-->
-<!--                        color="red darken-3"-->
-<!--                      >-->
-<!--                        <v-icon>mdi-delete</v-icon>-->
-<!--                      </v-btn>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                </ul>-->
                 </div>
               </v-col>
             </v-row>
-            <!--            </div>-->
           </v-card-text>
         </v-card>
       </v-col>
@@ -264,91 +227,5 @@ export default {
 </script>
 
 <style scoped>
-  .date-wrapper {
-    padding: 20px;
-    background-color: #333333;
-    display: flex;
-    justify-content: space-around;
-  }
 
-  .keywords-wrapper__lists {
-    background-color: #42b983;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .keywords-wrapper__lists .keywords {
-    text-align: left;
-    list-style: none;
-    height: 600px !important;
-    background-color: #42b983;
-  }
-
-  .keywords-wrapper__lists .keywords li {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .keywords-wrapper__lists .keywords li p {
-    font-weight: bold;
-    font-size: 16px;
-    margin: 5px;
-  }
-
-  .keywords-wrapper__buttons {
-    display: flex;
-  }
-
-  .keywords:first-child {
-    border-right: #1a0303 5px solid;
-  }
-
-  .keywords-wrapper__add {
-    display: flex;
-    justify-content: space-around;
-    margin: 10px 0;
-  }
-
-  .keywords-wrapper__adder {
-    padding: 10px;
-  }
-
-  h3 {
-    position: relative;
-    text-align: center;
-  }
-
-  h3:before {
-    content: '';
-    position: absolute;
-    height: 3px;
-    width: 100px;
-    background-color: #2c3e50;
-    bottom: 0;
-    margin: auto;
-    left: 0;
-    right: 0;
-    margin: auto;
-    top: 35px;
-  }
-
-  /*button {*/
-  /*  border: transparent 1px solid;*/
-  /*  background-color: #42b983;*/
-  /*  !*width: 120px;*!*/
-  /*  padding: 10px;*/
-  /*  color: #ffffff;*/
-  /*  transition: background-color 0.25s ease-out, color 0.25s ease-out, border 0.25s ease-out;*/
-  /*  cursor: pointer;*/
-  /*}*/
-
-  /*button:hover {*/
-  /*  background-color: #ffffff;*/
-  /*  color: #42b983;*/
-  /*  border: #42b983 1px solid;*/
-  /*}*/
-
-  .swal2-styled.swal2-confirm {
-    background-color: #42b983;
-  }
 </style>
