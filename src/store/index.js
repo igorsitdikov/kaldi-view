@@ -17,10 +17,13 @@ export default new Vuex.Store({
     playlist: [],
     currentTrackNum: 0,
     currentTranscriptions: [],
-    keyWordsSelectedList: JSON.parse(localStorage.getItem('selectedKeywords')) !== null
-      ? JSON.parse(localStorage.getItem('selectedKeywords')) : [],
+    keyWordsSelectedList: [],
   },
   mutations: {
+    setKeyWords(state, array) {
+      Vue.set(state, 'keyWordsSelectedList', []);
+      Vue.set(state, 'keyWordsSelectedList', array);
+    },
   },
   actions: {
   },
