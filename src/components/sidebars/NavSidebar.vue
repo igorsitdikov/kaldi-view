@@ -1,6 +1,5 @@
 <template>
   <v-navigation-drawer
-    v-if="$store.state.login.authorized"
     v-model="drawer"
     :mini-variant.sync="mini"
     :expand-on-hover=true
@@ -19,7 +18,7 @@
 
     <v-list dense>
       <v-list-item
-        v-for="item in filteredRoutes"
+        v-for="item in routes"
         :key="item.title"
         link
         :to="item.link"
