@@ -14,15 +14,31 @@ export default new Vuex.Store({
     stompClientNotTranscr: null,
     currentTrack: 1,
     dateFromTo: localStorage.getItem('dateFromTo'),
+    dateFrom: null,
+    dateTo: null,
     playlist: [],
     currentTrackNum: 0,
     currentTranscriptions: [],
     keyWordsSelectedList: [],
   },
+  getters: {
+    keyWordsSelectedList: state => state.keyWordsSelectedList,
+    dateFrom: state => state.dateFrom,
+    dateTo: state => state.dateTo,
+  },
   mutations: {
     setKeyWords(state, array) {
       Vue.set(state, 'keyWordsSelectedList', []);
       Vue.set(state, 'keyWordsSelectedList', array);
+    },
+    setDateFromTo(state, dates) {
+      Vue.set(state, 'dateFromTo', dates);
+    },
+    setDateFrom(state, date) {
+      Vue.set(state, 'dateFrom', date);
+    },
+    setDateTo(state, date) {
+      Vue.set(state, 'dateTo', date);
     },
   },
   actions: {

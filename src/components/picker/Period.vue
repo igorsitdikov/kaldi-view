@@ -44,6 +44,7 @@ export default {
       dateFrom: this.from,
       dateTo: this.to,
       snackbar: false,
+      dates: '',
     };
   },
   watch: {
@@ -56,18 +57,18 @@ export default {
   },
   methods: {
     prepareDateTime(source) {
-      return new Date(source).toISOString()
+      return source.toString().length > 17 ? new Date(source.getTime() + (3 * 60 * 60 * 1000))
+        .toISOString()
         .replace('T', ' ')
-        .substring(0, 16);
+        .substring(0, 16) : source;
     },
     saveConfig() {
-      this.dateFrom = this.prepareDateTime(this.from);
-      this.dateTo = this.prepareDateTime(this.to);
-      this.$store.state.dateFromTo = `?from=${this.prepareDateTime(this.from)}&to=${this.prepareDateTime(this.to)}`;
-      localStorage.setItem('selectedKeywords', JSON.stringify(this.$store.state.keyWordsSelectedList));
-      localStorage.setItem('dateFromTo', this.$store.state.dateFromTo);
-      localStorage.setItem('dateFrom', this.dateFrom);
-      localStorage.setItem('dateTo', this.dateTo);
+      this.dateFrom = this.prepareDateTime(this.dateFrom);
+      this.dateTo = this.prepareDateTime(this.dateTo);
+      this.dates = `?from=${this.prepareDateTime(this.dateFrom)}&to=${this.prepareDateTime(this.dateTo)}`;
+      this.$store.commit('setDateFromTo', this.dates);
+      this.$store.commit('setDateFrom', this.dateFrom);
+      this.$store.commit('setDateTo', this.dateTo);
       this.snackbar = true;
     },
   },

@@ -32,7 +32,6 @@ export default {
       if (this.keyword !== '') {
         console.log(this.keyword);
         this.$root.$emit('addKeyword', this.keyword);
-        // this.$root.$emit('addKeywordToDb', this.keyword);
         this.keyword = '';
       }
     },

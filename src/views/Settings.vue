@@ -100,8 +100,8 @@ export default {
       this.selected = this.$store.state.keyWordsSelectedList;
     },
     loadDateTime() {
-      this.dateFrom = localStorage.getItem('dateFrom');
-      this.dateTo = localStorage.getItem('dateTo');
+      this.dateFrom = this.$store.getters.dateFrom;
+      this.dateTo = this.$store.getters.dateTo;
       if (this.dateTo === null || this.dateFrom === null) {
         this.setDefaultDateTime();
       }
@@ -111,6 +111,8 @@ export default {
       dateTime.setHours(dateTime.getHours() - 1);
       this.dateFrom = dateTime;
       this.dateTo = new Date();
+      this.$store.commit('setDateFrom', this.dateFrom);
+      this.$store.commit('setDateTo', this.dateTo);
     },
     async getKeyWords() {
       const { data } = await keywordsRepository.get();
