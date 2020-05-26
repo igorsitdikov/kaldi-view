@@ -16,7 +16,6 @@
     "stompjs": "^2.3.3",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",
-    "vue-simple-alert": "^1.1.1",
     "vue-wave-surfer": "^1.0.1",
     "vuetify": "^2.2.11",
     "vuex": "^3.1.2",
