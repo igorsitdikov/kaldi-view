@@ -2,16 +2,14 @@
   <v-card :raised=true>
     <v-card-title>Выберите период</v-card-title>
     <v-card-text>
-      <v-container>
-        <v-row>
-          <v-col cols="6">
-            <datetime-picker label="С" v-model="dateFrom"></datetime-picker>
-          </v-col>
-          <v-col cols="6">
-            <datetime-picker label="По" v-model="dateTo"></datetime-picker>
-          </v-col>
-        </v-row>
-      </v-container>
+      <v-row>
+        <v-col cols="6">
+          <datetime-picker label="С" v-model="dateFrom"></datetime-picker>
+        </v-col>
+        <v-col cols="6">
+          <datetime-picker label="По" v-model="dateTo"></datetime-picker>
+        </v-col>
+      </v-row>
       <v-btn dark @click="saveConfig">Принять</v-btn>
     </v-card-text>
     <v-snackbar
