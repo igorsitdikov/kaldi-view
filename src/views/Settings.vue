@@ -1,5 +1,6 @@
 <template>
   <v-container fluid style="padding: 0 80px">
+    <background></background>
     <v-row>
       <v-col cols="12">
         <v-card :raised=true>
@@ -61,6 +62,7 @@ import { RepositoryFactory } from '../repositories/RepositoryFactory';
 import Period from '../components/picker/Period.vue';
 import KeywordsList from '../components/keywords/KeywordsList.vue';
 import KeywordInput from '../components/keywords/KeywordInput.vue';
+import Background from '../components/background/Background.vue';
 
 const keywordsRepository = RepositoryFactory.get('keywords');
 
@@ -70,6 +72,7 @@ export default {
     Period,
     KeywordsList,
     KeywordInput,
+    Background,
   },
   data() {
     return {
