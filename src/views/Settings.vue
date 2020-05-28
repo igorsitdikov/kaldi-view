@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid style="padding: 0 80px">
+  <v-container>
     <background></background>
     <v-row>
       <v-col cols="12">

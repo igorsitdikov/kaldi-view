@@ -1,13 +1,13 @@
 <template>
-  <vue-particles class="particles-js" color="#42b983"
+  <vue-particles class="particles-js" color="#000000"
                  :particleOpacity="0.7"
                  :particlesNumber="80"
                  shapeType="circle"
                  :particleSize="4"
-                 linesColor="#42b983"
+                 linesColor="#3b1a3d"
                  :linesWidth="1"
                  :lineLinked="true"
-                 :lineOpacity="0.9"
+                 :lineOpacity="0.4"
                  :linesDistance="150"
                  :moveSpeed="3"
                  :hoverEffect="true"
@@ -25,8 +25,10 @@ export default {
 <style scoped>
   .particles-js {
     position : absolute;
+    left: 0;
     width:100%;
     height:100%;
+    /*background-color: #3b1a3d;*/
     /*z-index:-1;*/
   }
 </style>
