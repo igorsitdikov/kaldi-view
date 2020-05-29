@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="page">
     <background></background>
     <v-row>
       <v-col cols="12">
@@ -137,5 +137,9 @@ export default {
 </script>
 
 <style scoped>
-
+  @media (max-width: 1024px) {
+    .page {
+      padding: 0 80px;
+    }
+  }
 </style>

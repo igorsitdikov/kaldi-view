@@ -1,12 +1,12 @@
 <template>
-  <v-container>
+  <v-container class="page">
     <v-row>
       <v-col cols="12">
         <audio-player ref="aud"></audio-player>
         <div class="transcription">
-      <span v-for="(item,index) in $store.state.currentTranscriptions"
-            :style="{color: item.color}"
-            :key="index">{{item.data.note}} </span>
+          <span v-for="(item,index) in $store.state.currentTranscriptions"
+                :style="{color: item.color}"
+                :key="index">{{item.data.note}} </span>
         </div>
         <play-list :play-list="$store.state.playlist"></play-list>
         <!--    <button @click="play(1)">Player test</button>-->
@@ -84,13 +84,9 @@ export default {
 </script>
 
 <style scoped>
-  .transcription {
-    height: 80px;
-    overflow-y: scroll;
-    text-align: left;
-    background-color: #dad7d7;
-    padding: 10px;
-    border-top: #42b983 4px solid;
-    margin-top: 10px;
+  @media (max-width: 1024px) {
+    .page {
+      padding: 0 80px;
+    }
   }
 </style>

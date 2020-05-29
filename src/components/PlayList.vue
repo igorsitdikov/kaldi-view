@@ -1,14 +1,38 @@
 <template>
   <div>
-    <ul class="playlist">
-      <li v-for="(track, index) in playList" :key="index" @click="clicker(track)">
-        <span>{{track.id}}</span>
-        <span>{{track.datetime}}</span>
-        <span>{{track.language}}</span>
-        <span>{{track.source}}</span>
-        <span>{{track.transcription.map(el => el.data.note).join(" ")}}</span>
-      </li>
-    </ul>
+    <v-data-table
+      :headers="headers"
+      :items="records"
+      :single-expand="singleExpand"
+      :expanded.sync="expanded"
+      item-key="name"
+      show-expand
+      class="elevation-1"
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title>Playlist</v-toolbar-title>
+        </v-toolbar>
+      </template>
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          <template v-for="(el, index) in item.transcription" >
+            <v-chip
+              :key="index"
+              :color="el.color"
+              class="ma-2"
+              x-small
+              label
+              @click="lights"
+              text-color="white"
+            >
+              {{el.data.note}}
+            </v-chip>
+          </template>
+          More info about {{ item.name }}
+        </td>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
@@ -17,6 +41,66 @@ export default {
   name: 'PlayList',
   data: () => ({
     playlist: [],
+    singleExpand: false,
+    expanded: [],
+    headers: [
+      {
+        text: 'Id',
+        align: 'start',
+        sortable: false,
+        value: 'id',
+      },
+      {
+        text: 'Дата время',
+        value: 'datetime',
+      },
+      {
+        text: 'Язык',
+        value: 'language',
+      },
+      {
+        text: 'Источник',
+        value: 'source',
+      },
+      {
+        text: '',
+        value: 'data-table-expand',
+      },
+    ],
+    records: [
+      {
+        id: 1,
+        datetime: new Date().toISOString(),
+        language: 'RU',
+        source: 'Source',
+        transcription: [
+          {
+            data: { note: 'test' },
+            start: 0,
+            end: 1,
+            color: 'grey',
+          },
+          {
+            data: { note: 'word' },
+            start: 0,
+            end: 1,
+            color: 'grey',
+          },
+          {
+            data: { note: 'feature' },
+            start: 0,
+            end: 1,
+            color: 'red',
+          },
+          {
+            data: { note: 'dog' },
+            start: 0,
+            end: 1,
+            color: 'grey',
+          },
+        ],
+      },
+    ],
   }),
   props: {
     playList: { type: Array },
@@ -29,6 +113,9 @@ export default {
     clicker(track) {
       this.$root.$emit('clicker', track.id);
     },
+    lights() {
+      alert('Toggling lights...');
+    },
   },
   watch: {
     message: () => {
@@ -39,25 +126,7 @@ export default {
 </script>
 
 <style scoped>
-  .playlist {
-    height: 630px;
-    overflow-y: scroll;
-    border-top: #42b983 5px solid;
-    border-bottom: #42b983 5px solid;
-    margin: 0;
-    padding: 0;
-    padding-top: 10px;
-  }
-
-  .playlist li {
-    display: grid;
-    border-bottom: 1px solid slateblue;
-    border-top: 1px solid slateblue;
-    padding: 10px;
-    grid-template-columns: 50px 200px 50px 100px auto;
-  }
-
-  .playlist li span {
-    border-right: 1px solid slateblue;
+  .v-application .ma-2 {
+    margin: 4px !important;
   }
 </style>
