@@ -2,21 +2,22 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="records"
+      :items="playlist"
       :single-expand="singleExpand"
       :expanded.sync="expanded"
       item-key="name"
       show-expand
+      @click:row="clicker"
       class="elevation-1"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Playlist</v-toolbar-title>
+          <v-toolbar-title>Аудиозаписи</v-toolbar-title>
         </v-toolbar>
       </template>
       <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
-          <template v-for="(el, index) in item.transcription" >
+          <template v-for="(el, index) in item.transcription">
             <v-chip
               :key="index"
               :color="el.color"
@@ -24,7 +25,7 @@
               x-small
               label
               @click="lights"
-              text-color="white"
+              text-color="black"
             >
               {{el.data.note}}
             </v-chip>
@@ -39,72 +40,40 @@
 <script>
 export default {
   name: 'PlayList',
-  data: () => ({
-    playlist: [],
-    singleExpand: false,
-    expanded: [],
-    headers: [
-      {
-        text: 'Id',
-        align: 'start',
-        sortable: false,
-        value: 'id',
-      },
-      {
-        text: 'Дата время',
-        value: 'datetime',
-      },
-      {
-        text: 'Язык',
-        value: 'language',
-      },
-      {
-        text: 'Источник',
-        value: 'source',
-      },
-      {
-        text: '',
-        value: 'data-table-expand',
-      },
-    ],
-    records: [
-      {
-        id: 1,
-        datetime: new Date().toISOString(),
-        language: 'RU',
-        source: 'Source',
-        transcription: [
-          {
-            data: { note: 'test' },
-            start: 0,
-            end: 1,
-            color: 'grey',
-          },
-          {
-            data: { note: 'word' },
-            start: 0,
-            end: 1,
-            color: 'grey',
-          },
-          {
-            data: { note: 'feature' },
-            start: 0,
-            end: 1,
-            color: 'red',
-          },
-          {
-            data: { note: 'dog' },
-            start: 0,
-            end: 1,
-            color: 'grey',
-          },
-        ],
-      },
-    ],
-  }),
   props: {
     playList: { type: Array },
     method: { type: Function },
+  },
+  data() {
+    return {
+      playlist: this.playList,
+      singleExpand: false,
+      expanded: [],
+      headers: [
+        {
+          text: 'Id',
+          align: 'start',
+          sortable: false,
+          value: 'id',
+        },
+        {
+          text: 'Дата время',
+          value: 'datetime',
+        },
+        {
+          text: 'Язык',
+          value: 'language',
+        },
+        {
+          text: 'Источник',
+          value: 'source',
+        },
+        {
+          text: '',
+          value: 'data-table-expand',
+        },
+      ],
+    };
   },
   mounted() {
     // this.playlist = this.$store.state.playlist;
@@ -120,6 +89,9 @@ export default {
   watch: {
     message: () => {
       this.clicker();
+    },
+    playlist() {
+      this.playlist = this.playList;
     },
   },
 };

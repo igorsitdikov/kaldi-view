@@ -3,14 +3,28 @@
     <v-row>
       <v-col cols="12">
         <audio-player ref="aud"></audio-player>
-        <div class="transcription">
-          <span v-for="(item,index) in $store.state.currentTranscriptions"
-                :style="{color: item.color}"
-                :key="index">{{item.data.note}} </span>
-        </div>
+      </v-col>
+      <v-col cols="12">
+        <v-card>
+          <v-card-title>Стенограмма</v-card-title>
+          <v-card-text>
+            <template v-for="(el, index) in $store.state.currentTranscriptions">
+              <v-chip
+                :key="index"
+                :color="el.color"
+                class="ma-2"
+                x-small
+                label
+                text-color="black"
+              >
+                {{el.data.note}}
+              </v-chip>
+            </template>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="12">
         <play-list :play-list="$store.state.playlist"></play-list>
-        <!--    <button @click="play(1)">Player test</button>-->
-        <!--    <button @click="getRecords()"></button>-->
       </v-col>
     </v-row>
   </v-container>
@@ -75,15 +89,21 @@ export default {
       this.files = [];
       this.$store.state.playlist = [];
       const keyWordsSelected = this.$store.state.keyWordsSelectedList;
-      const { data } = await audiorecordsRepository.getByKeywords(keyWordsSelected, `${this.$store.state.dateFromTo}`);
-      this.files = data;
-      this.$store.state.playlist = data;
+      const { data } = await audiorecordsRepository.getByKeywordsPage(keyWordsSelected, `${this.$store.state.dateFromTo}`, 0, 3);
+      this.files = data.records;
+      console.log(data.pages);
+      console.log(data.records);
+      this.$store.state.playlist = data.records;
     },
   },
 };
 </script>
 
 <style scoped>
+  .v-application .ma-2 {
+    margin: 4px !important;
+  }
+
   @media (max-width: 1024px) {
     .page {
       padding: 0 80px;

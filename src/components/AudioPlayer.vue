@@ -1,16 +1,18 @@
 <template>
-  <div class="player-wrapper">
-<!--    <div>Плеер</div>-->
-<!--    <div>Player</div>-->
-    <div class="player-wrapper__player">
-      <vue-wave-surfer :options="options" :file="track" ref="surf"></vue-wave-surfer>
-    </div>
-    <div class="player-wrapper__buttons">
-      <v-btn class="play-pause"
-              @click="play"
-      >{{playPauseBtn ? 'Пауза' : 'Воспроизвести'}}</v-btn>
-    </div>
-  </div>
+  <v-card>
+    <v-card-title>Плеер</v-card-title>
+    <v-card-text>
+      <div class="player-wrapper__player">
+        <vue-wave-surfer :options="options" :file="track" ref="surf"></vue-wave-surfer>
+      </div>
+      <div class="player-wrapper__buttons">
+        <v-btn class="play-pause"
+               @click="play"
+        >{{playPauseBtn ? 'Пауза' : 'Воспроизвести'}}
+        </v-btn>
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -105,22 +107,5 @@ export default {
 </script>
 
 <style scoped>
-  /*.player-wrapper__player{*/
-  /*  margin: 10px 0;*/
-  /*  background-color: #dad7d7;*/
-  /*}*/
-  /*.player-wrapper__buttons .play-pause{*/
-  /*  border: transparent 1px solid;*/
-  /*  background-color: #42b983;*/
-  /*  width: 120px;*/
-  /*  padding: 10px;*/
-  /*  color: #ffffff;*/
-  /*  transition: background-color 0.25s ease-out, color  0.25s ease-out, border 0.25s ease-out;*/
-  /*  cursor: pointer;*/
-  /*}*/
-  /*.player-wrapper__buttons .play-pause:hover{*/
-  /*  background-color: #ffffff;*/
-  /*  color: #42b983;*/
-  /*  border: #42b983 1px solid;*/
-  /*}*/
+
 </style>

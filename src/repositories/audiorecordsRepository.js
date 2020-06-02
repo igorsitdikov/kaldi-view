@@ -12,4 +12,7 @@ export default {
   getByKeywords(keywords, dates) {
     return Repository.post(`${resource}${dates}`, keywords);
   },
+  getByKeywordsPage(keywords, dates, page, size) {
+    return Repository.post(`${resource}/page${dates}&page=${page}&size=${size}`, keywords);
+  },
 };
