@@ -24,7 +24,22 @@
         </v-card>
       </v-col>
       <v-col cols="12">
-        <play-list :play-list="$store.state.playlist"></play-list>
+        <play-list :play-list="$store.state.playlist"
+                   :items-per-page="itemsPerPage"
+                   :page="page"
+        ></play-list>
+        <div class="text-center pt-2">
+          <v-pagination v-model="page" :length="pageCount-1" @input="getRecordsByPage">
+          </v-pagination>
+          <v-text-field
+            :value="itemsPerPage"
+            label="Items per page"
+            type="number"
+            min="-1"
+            max="15"
+            @input="updatePagination($event)"
+          ></v-text-field>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -50,6 +65,9 @@ export default {
   },
   data() {
     return {
+      page: 0,
+      pageCount: 0,
+      itemsPerPage: 5,
       file: '',
       files: [75, 88, 92],
       transcriptions: [],
@@ -76,6 +94,7 @@ export default {
     // this.play(track.id);
     // this.files = this.$store.state.playlist;
   },
+  watch: { },
   methods: {
     play(id) {
       this.$store.state.currentTrack = id;
@@ -85,15 +104,26 @@ export default {
         this.audioplayer.testPLayer();
       }
     },
+    async updatePagination(event) {
+      this.itemsPerPage = parseInt(event, 10);
+      await this.getRecords();
+    },
+    async getRecordsByPage() {
+      const keyWordsSelected = this.$store.state.keyWordsSelectedList;
+      const { data } = await audiorecordsRepository.getByKeywordsPage(keyWordsSelected,
+        `${this.$store.state.dateFromTo}`,
+        this.page === 0 ? 0 : this.page - 1,
+        this.itemsPerPage);
+      this.files = data.records;
+      this.pageCount = data.pages;
+      this.$store.state.playlist = data.records;
+      console.log(data.pages);
+      console.log(data.records);
+    },
     async getRecords() {
       this.files = [];
       this.$store.state.playlist = [];
-      const keyWordsSelected = this.$store.state.keyWordsSelectedList;
-      const { data } = await audiorecordsRepository.getByKeywordsPage(keyWordsSelected, `${this.$store.state.dateFromTo}`, 0, 3);
-      this.files = data.records;
-      console.log(data.pages);
-      console.log(data.records);
-      this.$store.state.playlist = data.records;
+      this.getRecordsByPage();
     },
   },
 };

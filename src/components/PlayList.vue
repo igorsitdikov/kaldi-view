@@ -2,10 +2,13 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="playlist"
+      :items="playList"
       :single-expand="singleExpand"
       :expanded.sync="expanded"
+      :page.sync="pageCurrent"
+      :items-per-page="itemsPerPage"
       item-key="name"
+      hide-default-footer
       show-expand
       @click:row="clicker"
       class="elevation-1"
@@ -33,6 +36,13 @@
           More info about {{ item.name }}
         </td>
       </template>
+<!--      <template v-slot:top="{ pagination, options, updateOptions }">-->
+<!--        <v-data-footer-->
+<!--          :pagination="pagination"-->
+<!--          :options="options"-->
+<!--          @update:options="updateOptions"-->
+<!--          items-per-page-text="$vuetify.dataTable.itemsPerPageText"/>-->
+<!--      </template>-->
     </v-data-table>
   </div>
 </template>
@@ -43,10 +53,13 @@ export default {
   props: {
     playList: { type: Array },
     method: { type: Function },
+    page: { type: Number },
+    itemsPerPage: { type: Number },
   },
   data() {
     return {
       playlist: this.playList,
+      pageCurrent: this.page,
       singleExpand: false,
       expanded: [],
       headers: [
@@ -92,6 +105,9 @@ export default {
     },
     playlist() {
       this.playlist = this.playList;
+    },
+    page() {
+      this.pageCurrent = this.page;
     },
   },
 };
