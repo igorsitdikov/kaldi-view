@@ -4,7 +4,6 @@
     <v-card-text>
       <div class="player-wrapper__player">
         <vue-wave-surfer :options="options"
-                         :file="track"
                          ref="surf"
         ></vue-wave-surfer>
       </div>
@@ -27,9 +26,6 @@ import Cursor from 'wavesurfer.js/dist/plugin/wavesurfer.cursor';
 import Minimap from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 import Region from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import VueWaveSurfer from './VueWaveSurfer.vue';
-import { RepositoryFactory } from '../repositories/RepositoryFactory';
-
-const audioRecordsRepository = RepositoryFactory.get('records');
 
 export default {
   name: 'AudioPlayer',
@@ -41,7 +37,6 @@ export default {
       options: {
         plugins: [Cursor.create(), Minimap.create(), Region.create()],
       },
-      track: 105,
       playPauseBtn: false,
     };
   },
@@ -57,8 +52,7 @@ export default {
     this.player.on('region-out', (region) => {
       this.$set(this.$store.getters.currentTranscriptions[region.id], 'color', 'rgba(189,24,255,0.59)');
     });
-    this.player.on('region-click', this.editAnnotation);
-    this.testPLayer();
+    this.player.on('region-click', this.showRegion);
   },
   computed: {
     player() {
@@ -69,18 +63,15 @@ export default {
     },
   },
   methods: {
-    editAnnotation(region) {
+    showRegion(region) {
       console.log(region);
     },
     addTranscriptions() {
       this.player.clearRegions();
-      if (this.$store.state.player.playlist.length !== 0) {
+      if (this.$store.getters.playlist.length !== 0) {
         this.$store.getters.playlist[this.$store.getters.currentTrackNum]
-          .transcription.forEach((el) => {
-            this.player.addRegion(el);
-          });
+          .transcription.forEach(word => this.player.addRegion(word));
       }
-      console.log(this.$store.state.player.playlist[this.$store.state.player.currentTrackNum]);
     },
     play() {
       this.playPauseBtn = !this.playPauseBtn;
@@ -89,9 +80,7 @@ export default {
     regionPlay(start) {
       this.player.play(start);
     },
-    async testPLayer() {
-      const { data } = await audioRecordsRepository
-        .getTrackById(this.$store.state.player.currentTrack);
+    async loadPlay(data) {
       this.player.load(`data:audio/x-wav;base64,${data}`);
 
       this.player.on('ready', () => {

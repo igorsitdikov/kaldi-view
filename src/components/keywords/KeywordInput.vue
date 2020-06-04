@@ -30,7 +30,6 @@ export default {
   methods: {
     add() {
       if (this.keyword !== '') {
-        console.log(this.keyword);
         this.$root.$emit('addKeyword', this.keyword);
         this.keyword = '';
       }
