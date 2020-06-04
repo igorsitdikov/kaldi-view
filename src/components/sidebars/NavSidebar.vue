@@ -49,10 +49,10 @@ export default {
   computed: {
     filteredRoutes() {
       return this.routes.filter((el) => {
-        if (el.admin && !this.$store.state.login.role) {
+        if (el.admin && !this.$store.state.player.login.role) {
           return false;
         }
-        return !(!el.admin && !this.$store.state.login.authorized);
+        return !(!el.admin && !this.$store.state.player.login.authorized);
       });
     },
   },
@@ -71,14 +71,14 @@ export default {
       },
       {
         title: 'Player',
-        icon: 'mdi-play-box-outline',
+        icon: 'mdi-play-circle-outline',
         admin: false,
         link: '/player',
         project: false,
       },
       {
         title: 'Settings',
-        icon: 'mdi-settings',
+        icon: 'mdi-cog',
         admin: false,
         link: '/settings',
         project: false,

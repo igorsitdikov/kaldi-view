@@ -100,7 +100,7 @@ export default {
       await keywordsRepository.delete(id);
     },
     showSelected() {
-      this.selected = this.$store.state.keyWordsSelectedList;
+      this.selected = this.$store.getters.keyWordsSelectedList;
     },
     loadDateTime() {
       this.dateFrom = this.$store.getters.dateFrom;

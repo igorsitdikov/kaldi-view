@@ -3,12 +3,19 @@
     <v-card-title>Плеер</v-card-title>
     <v-card-text>
       <div class="player-wrapper__player">
-        <vue-wave-surfer :options="options" :file="track" ref="surf"></vue-wave-surfer>
+        <vue-wave-surfer :options="options"
+                         :file="track"
+                         ref="surf"
+        ></vue-wave-surfer>
       </div>
       <div class="player-wrapper__buttons">
         <v-btn class="play-pause"
+               fab
+               dark
+               small
                @click="play"
-        >{{playPauseBtn ? 'Пауза' : 'Воспроизвести'}}
+        >
+          <v-icon dark>{{playPauseBtn ? 'mdi-pause' : 'mdi-play'}}</v-icon>
         </v-btn>
       </div>
     </v-card-text>
@@ -22,7 +29,7 @@ import Region from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import VueWaveSurfer from './VueWaveSurfer.vue';
 import { RepositoryFactory } from '../repositories/RepositoryFactory';
 
-const audiorecordsRepository = RepositoryFactory.get('audiorecords');
+const audioRecordsRepository = RepositoryFactory.get('records');
 
 export default {
   name: 'AudioPlayer',
@@ -39,35 +46,18 @@ export default {
     };
   },
   mounted() {
-    // this.items.forEach(el => {
-    //   this.player.addRegion(el);
-    // });
-    // console.log(test)
-    // this.item = test.data.items;
-    // this.totalRows = this.item.length;
-
-
     this.player.on('finish', () => {
+      this.playPauseBtn = false;
+      console.log('finished');
     });
-
 
     this.player.on('region-in', (region) => {
-      // console.log(region.id);
-      this.$set(this.$store.state.currentTranscriptions[region.id], 'color', 'red');
-      // .color = 'red';
-      // console.log(this.$store.state.playlist[1]);
-      // this.$set(this.selected.comment[region.id], 'color', 'rgba(189,24,255,0.59)');
+      this.$set(this.$store.getters.currentTranscriptions[region.id], 'color', 'red');
     });
     this.player.on('region-out', (region) => {
-      // this.$set(this.$store.state.playlist[this.$store.state.playlist
-      //   .findIndex(x => x.id === this.$store.state.currentTrack)]
-      //   .transcriptions[region.id],
-      // 'color', 'rgba(1,62,255,0.59)');
-      // region.color = 'rgba(1,62,255,0.59)';
-      // this.$set(this.$store.state.playlist.
-      // transcriptions[parseInt(region.id, 10)],
-      // 'color', 'rgba(1,62,255,0.59)');
+      this.$set(this.$store.getters.currentTranscriptions[region.id], 'color', 'rgba(189,24,255,0.59)');
     });
+    this.player.on('region-click', this.editAnnotation);
     this.testPLayer();
   },
   computed: {
@@ -75,30 +65,37 @@ export default {
       return this.$refs.surf.waveSurfer;
     },
     updates() {
-      return this.$store.state.count;
+      return this.$store.state.player.count;
     },
   },
   methods: {
+    editAnnotation(region) {
+      console.log(region);
+    },
     addTranscriptions() {
       this.player.clearRegions();
-      if (this.$store.state.playlist.length !== 0) {
-        this.$store.state.playlist[this.$store.state.currentTrackNum]
+      if (this.$store.state.player.playlist.length !== 0) {
+        this.$store.getters.playlist[this.$store.getters.currentTrackNum]
           .transcription.forEach((el) => {
             this.player.addRegion(el);
           });
       }
-      console.log(this.$store.state.playlist[this.$store.state.currentTrackNum]);
+      console.log(this.$store.state.player.playlist[this.$store.state.player.currentTrackNum]);
     },
     play() {
-      // console.log(this.player);
       this.playPauseBtn = !this.playPauseBtn;
       this.player.playPause();
     },
+    regionPlay(start) {
+      this.player.play(start);
+    },
     async testPLayer() {
-      const { data } = await audiorecordsRepository.getTrackById(this.$store.state.currentTrack);
+      const { data } = await audioRecordsRepository
+        .getTrackById(this.$store.state.player.currentTrack);
       this.player.load(`data:audio/x-wav;base64,${data}`);
 
       this.player.on('ready', () => {
+        this.playPauseBtn = true;
         this.player.play();
       });
     },

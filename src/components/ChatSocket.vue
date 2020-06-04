@@ -76,10 +76,10 @@ export default {
   },
   computed: {
     stompClient() {
-      return this.$store.state.stompClient;
+      return this.$store.state.player.stompClient;
     },
     stompClientNotTranscr() {
-      return this.$store.state.stompClientNotTranscr;
+      return this.$store.state.player.stompClientNotTranscr;
     },
   },
   created() {
@@ -91,13 +91,13 @@ export default {
     },
     connectNotTranscr() {
       const socket = new SockJS(`${domain}/gs-guide-websocket`);
-      this.$store.state.stompClientNotTranscr = StompClient.over(socket);
-      this.$store.state.stompClientNotTranscr.debug = null;
+      this.$store.state.player.stompClientNotTranscr = StompClient.over(socket);
+      this.$store.state.player.stompClientNotTranscr.debug = null;
       // console.log(this.stompClientNotTranscr);
-      this.$store.state.stompClientNotTranscr.connect({}, (frame) => {
+      this.$store.state.player.stompClientNotTranscr.connect({}, (frame) => {
         this.connected = true;
         // console.log(`Connected: ${frame}`);
-        this.$store.state.stompClientNotTranscr.subscribe('/topic/nottranscribed', (greeting) => {
+        this.$store.state.player.stompClientNotTranscr.subscribe('/topic/nottranscribed', (greeting) => {
           // console.log('Request');
           // console.log(greeting.body);
           this.notTranscr = JSON.parse(greeting.body);
@@ -106,31 +106,31 @@ export default {
     },
     connect() {
       const socket = new SockJS(`${domain}/gs-guide-websocket`);
-      this.$store.state.stompClient = StompClient.over(socket);
+      this.$store.state.player.stompClient = StompClient.over(socket);
       // this.stompClient.debug = null;
       // console.log(this.stompClient);
-      this.$store.state.stompClient.connect({}, (frame) => {
+      this.$store.state.player.stompClient.connect({}, (frame) => {
         this.connected = true;
         // console.log(`Connected: ${frame}`);
-        this.$store.state.stompClient.subscribe('/topic/greetings', (greeting) => {
+        this.$store.state.player.stompClient.subscribe('/topic/greetings', (greeting) => {
           // console.log('Request');
           // console.log(greeting.body);
           this.hui = greeting.body;
-          this.$store.state.count = parseInt(this.hui, 10);
-          console.log(this.$store.state.count);
+          this.$store.state.player.count = parseInt(this.hui, 10);
+          console.log(this.$store.state.player.count);
         });
       });
     },
     disconnect() {
-      if (this.$store.state.stompClient !== null) {
-        this.$store.state.stompClient.disconnect();
+      if (this.$store.state.player.stompClient !== null) {
+        this.$store.state.player.stompClient.disconnect();
       }
       this.connected = false;
       console.log('Disconnected');
     },
     disconnectNotTranscr() {
-      if (this.$store.state.stompClientNotTranscr !== null) {
-        this.$store.state.stompClientNotTranscr.disconnect();
+      if (this.$store.state.player.stompClientNotTranscr !== null) {
+        this.$store.state.player.stompClientNotTranscr.disconnect();
       }
       this.connected = false;
       console.log('Disconnected');

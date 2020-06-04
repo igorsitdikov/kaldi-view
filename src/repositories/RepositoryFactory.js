@@ -1,9 +1,9 @@
 import keywordsRepository from './keywordsRepository';
-import audiorecordsRepository from './audiorecordsRepository';
+import audioRecordsRepository from './audioRecordsRepository';
 
 const repositories = {
   keywords: keywordsRepository,
-  audiorecords: audiorecordsRepository,
+  records: audioRecordsRepository,
 };
 
 // eslint-disable-next-line import/prefer-default-export

@@ -12,6 +12,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-param-reassign': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-underscore-dangle': ["error", { "allowAfterThis": true }]
   },
   parserOptions: {
     parser: 'babel-eslint',
