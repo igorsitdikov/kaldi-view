@@ -1,12 +1,11 @@
 <template>
   <v-container class="page">
-    <background></background>
     <v-row>
       <v-col cols="12">
-        <audio-player ref="aud"></audio-player>
+        <audio-player ref="aud" class="teal darken-4"></audio-player>
       </v-col>
       <v-col cols="12">
-        <v-card>
+        <v-card class="teal darken-4">
           <v-card-title>Стенограмма</v-card-title>
           <v-card-text>
             <template v-for="(region, index) in $store.getters.currentTranscriptions">
@@ -24,24 +23,29 @@
         </v-card>
       </v-col>
       <v-col cols="12">
-        <play-list :play-list="$store.getters.playlist"
-                   :items-per-page="itemsPerPage"
-                   :page="page"
-        ></play-list>
-        <div class="text-center pt-2">
-          <v-pagination v-model="page"
-                        total-visible="10"
-                        :length="pageCount"
-                        @input="getRecordsByPage"
-          ></v-pagination>
-          <v-text-field :value="itemsPerPage"
-                        label="Items per page"
-                        type="number"
-                        min="-1"
-                        max="15"
-                        @input="updatePagination($event)"
-          ></v-text-field>
-        </div>
+        <v-card class="teal darken-4">
+          <v-card-title>Аудиозаписи</v-card-title>
+          <v-card-text>
+            <play-list :play-list="$store.getters.playlist"
+                       :items-per-page="itemsPerPage"
+                       :page="page"
+            ></play-list>
+            <div class="text-center pt-2">
+              <v-pagination v-model="page"
+                            total-visible="10"
+                            :length="pageCount"
+                            @input="getRecordsByPage"
+              ></v-pagination>
+              <v-text-field :value="itemsPerPage"
+                            label="Items per page"
+                            type="number"
+                            min="-1"
+                            max="15"
+                            @input="updatePagination($event)"
+              ></v-text-field>
+            </div>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -51,7 +55,7 @@
 import AudioPlayer from '../components/AudioPlayer.vue';
 import PlayList from '../components/PlayList.vue';
 import { RepositoryFactory } from '../repositories/RepositoryFactory';
-import Background from '../components/background/Background.vue';
+// import Background from '../components/background/Background.vue';
 
 const audioRecordsRepository = RepositoryFactory.get('records');
 
@@ -60,7 +64,7 @@ export default {
   components: {
     PlayList,
     AudioPlayer,
-    Background,
+    // Background,
   },
   computed: {
     audioplayer() {

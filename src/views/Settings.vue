@@ -3,7 +3,7 @@
     <background></background>
     <v-row>
       <v-col cols="12">
-        <v-card :raised=true>
+        <v-card :raised=true class="teal darken-4">
           <v-card-title><h1>Настройки</h1></v-card-title>
         </v-card>
       </v-col>
@@ -11,7 +11,7 @@
         <period :to="dateTo" :from="dateFrom"></period>
       </v-col>
       <v-col cols="12">
-        <v-card :raised=true>
+        <v-card :raised=true class="teal darken-4">
           <v-card-title><h3>Добавить слово</h3></v-card-title>
           <v-card-text>
             <v-row>
@@ -141,5 +141,8 @@ export default {
     .page {
       padding: 0 80px;
     }
+  }
+  .page {
+    padding: 0;
   }
 </style>

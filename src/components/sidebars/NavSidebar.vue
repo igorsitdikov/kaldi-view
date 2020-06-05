@@ -4,7 +4,8 @@
     :mini-variant.sync="mini"
     :expand-on-hover=true
     style="z-index: 1000"
-    absolute
+    fixed
+    class="blue-grey darken-1"
     permanent
   >
     <v-list-item class="px-2">

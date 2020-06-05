@@ -1,5 +1,5 @@
 <template>
-  <v-card :raised=true>
+  <v-card :raised=true class="teal darken-4">
     <v-card-title>Выберите период</v-card-title>
     <v-card-text>
       <v-row>
@@ -10,7 +10,9 @@
           <datetime-picker label="По" v-model="dateTo"></datetime-picker>
         </v-col>
       </v-row>
-      <v-btn dark @click="saveConfig">Принять</v-btn>
+      <v-btn dark @click="saveConfig">
+        <v-icon>mdi-content-save</v-icon>
+        Принять</v-btn>
     </v-card-text>
     <v-snackbar
       v-model="snackbar"

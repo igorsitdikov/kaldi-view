@@ -47,10 +47,10 @@ export default {
     });
 
     this.player.on('region-in', (region) => {
-      this.$set(this.$store.getters.currentTranscriptions[region.id], 'color', 'red');
+      this.$set(this.$store.getters.currentTranscriptions[region.id], 'color', 'rgba(24,255,255,0.59)');
     });
     this.player.on('region-out', (region) => {
-      this.$set(this.$store.getters.currentTranscriptions[region.id], 'color', 'rgba(189,24,255,0.59)');
+      this.$set(this.$store.getters.currentTranscriptions[region.id], 'color', 'rgba(239,108,0,0.59)');
     });
     this.player.on('region-click', this.showRegion);
   },

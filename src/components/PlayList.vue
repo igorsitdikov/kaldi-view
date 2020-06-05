@@ -1,50 +1,42 @@
 <template>
-  <div>
-    <v-data-table
-      :headers="headers"
-      :items="playList"
-      :single-expand="singleExpand"
-      :expanded.sync="expanded"
-      :page.sync="pageCurrent"
-      :items-per-page="itemsPerPage"
-      item-key="name"
-      hide-default-footer
-      show-expand
-      @click:row="clicker"
-      class="elevation-1"
-    >
-      <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title>Аудиозаписи</v-toolbar-title>
-        </v-toolbar>
-      </template>
-      <template v-slot:expanded-item="{ headers, item }">
-        <td :colspan="headers.length">
-          <template v-for="(el, index) in item.transcription">
-            <v-chip
-              :key="index"
-              :color="el.color"
-              class="ma-2"
-              x-small
-              label
-              @click="lights"
-              text-color="black"
-            >
-              {{el.data.note}}
-            </v-chip>
-          </template>
-          More info about {{ item.name }}
-        </td>
-      </template>
-<!--      <template v-slot:top="{ pagination, options, updateOptions }">-->
-<!--        <v-data-footer-->
-<!--          :pagination="pagination"-->
-<!--          :options="options"-->
-<!--          @update:options="updateOptions"-->
-<!--          items-per-page-text="$vuetify.dataTable.itemsPerPageText"/>-->
-<!--      </template>-->
-    </v-data-table>
-  </div>
+  <v-data-table
+    :headers="headers"
+    :items="playList"
+    :single-expand="singleExpand"
+    :expanded.sync="expanded"
+    :page.sync="pageCurrent"
+    :items-per-page="itemsPerPage"
+    item-key="name"
+    hide-default-footer
+    show-expand
+    @click:row="clicker"
+    class="elevation-1"
+  >
+    <template v-slot:expanded-item="{ headers, item }">
+      <td :colspan="headers.length">
+        <template v-for="(el, index) in item.transcription">
+          <v-chip
+            :key="index"
+            :color="el.color"
+            class="ma-2"
+            x-small
+            label
+            @click="lights"
+            text-color="black"
+          >
+            {{el.data.note}}
+          </v-chip>
+        </template>
+      </td>
+    </template>
+    <!--      <template v-slot:top="{ pagination, options, updateOptions }">-->
+    <!--        <v-data-footer-->
+    <!--          :pagination="pagination"-->
+    <!--          :options="options"-->
+    <!--          @update:options="updateOptions"-->
+    <!--          items-per-page-text="$vuetify.dataTable.itemsPerPageText"/>-->
+    <!--      </template>-->
+  </v-data-table>
 </template>
 
 <script>
