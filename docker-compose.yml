@@ -1,0 +1,11 @@
+version: '3.3'
+services:
+    frontend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: on-failure
+        ports:
+            - "8080:8080"
+        environment:
+            VUE_APP_DOMAIN: 127.0.0.1 # изменить

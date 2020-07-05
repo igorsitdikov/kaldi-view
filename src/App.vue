@@ -14,10 +14,6 @@ export default {
   components: {
     NavSidebar,
   },
-  mounted() {
-    console.log(process.env.VUE_APP_DOMAIN);
-    console.log(domain);
-  },
   data: () => ({
     //
   }),
