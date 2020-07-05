@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import Vue from 'vue';
+// import Vue from 'vue';
 import WaveSurfer from 'wavesurfer.js';
-import Cursor from 'wavesurfer.js/dist/plugin/wavesurfer.cursor';
-import Minimap from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
-import Region from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
+// import Cursor from 'wavesurfer.js/dist/plugin/wavesurfer.cursor';
+// import Minimap from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
+// import Region from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 
 export default {
   props: ['options'], // , "regions" "src",
@@ -19,7 +19,7 @@ export default {
   },
   mounted() {
     const { options } = this;
-    const { start } = this;
+    // const { start } = this;
     const wsOptions = Object.assign(
       {
         container: this.$el,

@@ -43,7 +43,7 @@ export default {
   mounted() {
     this.player.on('finish', () => {
       this.playPauseBtn = false;
-      console.log('finished');
+      // console.log('finished');
     });
 
     this.player.on('region-in', (region) => {
@@ -63,9 +63,9 @@ export default {
     },
   },
   methods: {
-    showRegion(region) {
-      console.log(region);
-    },
+    // showRegion(region) {
+    //   // console.log(region);
+    // },
     addTranscriptions() {
       this.player.clearRegions();
       if (this.$store.getters.playlist.length !== 0) {

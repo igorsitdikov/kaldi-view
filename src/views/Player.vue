@@ -55,7 +55,6 @@
 import AudioPlayer from '../components/AudioPlayer.vue';
 import PlayList from '../components/PlayList.vue';
 import { RepositoryFactory } from '../repositories/RepositoryFactory';
-// import Background from '../components/background/Background.vue';
 
 const audioRecordsRepository = RepositoryFactory.get('records');
 
@@ -64,7 +63,6 @@ export default {
   components: {
     PlayList,
     AudioPlayer,
-    // Background,
   },
   computed: {
     audioplayer() {

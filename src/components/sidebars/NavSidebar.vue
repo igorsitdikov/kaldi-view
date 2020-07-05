@@ -63,13 +63,13 @@ export default {
     drawerRight: false,
     dialog: false,
     routes: [
-      {
-        title: 'Home',
-        icon: 'mdi-home-city',
-        admin: false,
-        link: '/',
-        project: false,
-      },
+      // {
+      //   title: 'Home',
+      //   icon: 'mdi-home-city',
+      //   admin: false,
+      //   link: '/',
+      //   project: false,
+      // },
       {
         title: 'Player',
         icon: 'mdi-play-circle-outline',

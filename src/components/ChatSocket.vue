@@ -117,7 +117,7 @@ export default {
           // console.log(greeting.body);
           this.hui = greeting.body;
           this.$store.state.player.count = parseInt(this.hui, 10);
-          console.log(this.$store.state.player.count);
+          // console.log(this.$store.state.player.count);
         });
       });
     },
@@ -126,14 +126,14 @@ export default {
         this.$store.state.player.stompClient.disconnect();
       }
       this.connected = false;
-      console.log('Disconnected');
+      // console.log('Disconnected');
     },
     disconnectNotTranscr() {
       if (this.$store.state.player.stompClientNotTranscr !== null) {
         this.$store.state.player.stompClientNotTranscr.disconnect();
       }
       this.connected = false;
-      console.log('Disconnected');
+      // console.log('Disconnected');
     },
     sendName() {
       this.stompClient.send('/app/hello', {}, JSON.stringify({ name: this.name }));

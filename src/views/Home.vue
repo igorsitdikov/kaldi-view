@@ -1,11 +1,14 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+  <v-container class="page">
+    <v-row>
+      <v-col cols="12">
+
+<!--      <img alt="Vue logo" src="../assets/logo.png">-->
 <!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
 <!--    <ChatSocket/>-->
-
-  </div>
-
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -27,7 +30,7 @@ export default {
   methods: {
     update() {
       this.hui = 'asdsadas';
-      console.log(this.hui);
+      // console.log(this.hui);
     },
   },
 };
