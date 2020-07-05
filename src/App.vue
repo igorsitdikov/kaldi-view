@@ -7,7 +7,6 @@
 
 <script>
 import NavSidebar from './components/sidebars/NavSidebar.vue';
-import domain from './config/config';
 
 export default {
   name: 'App',

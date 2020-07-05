@@ -4,6 +4,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+        image: clerk-frontend
         restart: on-failure
         ports:
             - "8080:8080"
